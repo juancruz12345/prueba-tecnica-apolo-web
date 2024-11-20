@@ -1,4 +1,17 @@
-#pokemons-container {
+body{
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.search-add-div{
+  margin: 0 auto;
+  width: 100%;
+}
+  h1{
+  text-align: center;
+  }
+
+
+  #pokemons-container {
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -34,6 +47,33 @@
     justify-content: center;
   }
   
+
+
+
+
+  .div-no-user{
+
+    margin-top: 50px;
+    & h2{
+      margin-top: 50px;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+  }
+ 
+  .div-links{
+  
+   width: 50vw;
+   display: flex;
+   justify-content: space-evenly;
+   margin: 0 auto;
+   margin-top: 30px;
+  }
+  .link-no-user{
+    text-decoration: none;
+   color: white;
+  }
+
   
   @media (max-width: 576px) {
     .pokemons-container h1 {

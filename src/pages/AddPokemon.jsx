@@ -12,10 +12,16 @@ export function AddPokemonForm() {
   const [imagePreview, setImagePreview] = useState('')
   const navigate = useNavigate()
   const { loadCustomPokemons } = usePokemons()
+  const [showErrorImg, setShowErrorImg] = useState(false)
+  const [showErrorName, setShowErrorName] = useState(false)
 
   const [validated, setValidated] = useState(false);
 
  
+  const handleChangeName = (e) => {
+    setName(e.currentTarget.value)
+    setShowErrorName(false)
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -27,21 +33,22 @@ export function AddPokemonForm() {
       }
       reader.readAsDataURL(file)
     }
+    setShowErrorImg(false)
   }
 
   const handleSubmit = (e) => {
 
-    /*const form = e.currentTarget;
+    const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    setValidated(true);*/
+    setValidated(true);
 
     e.preventDefault()
     if (!imageFile) {
-      alert('Please select an image')
+      setShowErrorImg(true)
       return
     }
     const reader = new FileReader()
@@ -52,17 +59,22 @@ export function AddPokemonForm() {
         imageUrl: reader.result,
         isCustom: true
       }
+      
       const customPokemons = JSON.parse(localStorage.getItem('customPokemons')) || []
-      const nombreValido = customPokemons.filter((e)=>e.name===name)
+      const nombreValido = customPokemons.filter((e)=>e.name===newPokemon.name)
+      
       if(nombreValido.length>0){
-        alert('ese nombre ya existe')
+        setShowErrorName(true)
         
         return
       }
-      customPokemons.push(newPokemon)
+      else if(nombreValido.length==0){
+        customPokemons.push(newPokemon)
       localStorage.setItem('customPokemons', JSON.stringify(customPokemons))
       loadCustomPokemons()
       navigate('/')
+      }
+    
     }
     reader.readAsDataURL(imageFile)
   }
@@ -79,9 +91,9 @@ export function AddPokemonForm() {
           <Form.Label>Nombre</Form.Label>
           <Form.Control 
             type="text" 
-            placeholder="Enter Pokémon name" 
+            placeholder="Escribe el nombre del pokémon" 
             value={name} 
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleChangeName}
             required
             minLength={3}
           />
@@ -107,6 +119,22 @@ export function AddPokemonForm() {
           Guardar
         </Button>
       </Form>
+       {
+        showErrorName 
+        ?
+        <span>Ese nombre ya existe</span>
+        :
+        <></>
+
+       }
+       {
+        showErrorImg
+        ?
+        <span>Debes subir una imagen para tu pokémon</span>
+        :
+        <></>
+
+       }
     </Container>
     
    </div>

@@ -14,7 +14,7 @@ export function Register(){
     const usuarios = JSON.parse(window.localStorage.getItem('users')) || []
 
     const [show, setShow] = useState(false)
-    const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false)
     const [showError, setShowError] = useState(false)
    
     const handleChangeUsername = (e) => {
@@ -29,22 +29,27 @@ export function Register(){
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
+        const form = e.currentTarget
+        if (form.checkValidity() === false) {
+        e.preventDefault()
+        e.stopPropagation()
     }
 
-    setValidated(true);
-        
+        setValidated(true)
+       
         const usuario = {username:username, contraseña:contraseña}
         const nombreExistente = usuarios.find(user => user.username === usuario.username)
-        if(nombreExistente!==undefined){
+        if(nombreExistente!==undefined && e.currentTarget[0].value !== ''){
           setShowError(true)
-          
+          return
         }
-        else{
-        setShowError(false)
+        else if(e.currentTarget[0].value === ''){
+          setShowError(false)
+          return
+        }
+        
+        else if(e.currentTarget[0].value !== '' && e.currentTarget[1].value.length >= 6){
+          setShowError(false)
         usuarios.push(usuario)
         window.localStorage.setItem('users', JSON.stringify(usuarios))
         setShow(true)
@@ -52,6 +57,7 @@ export function Register(){
           navigate('/login')
         },2000)
         }
+        
     }
     
     return(

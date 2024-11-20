@@ -1,10 +1,17 @@
+.searchBar-div{
 
-.form{
-    width: 50%;
     display: flex;
     align-items: center;
+}
+.div-search-form{
+    display: flex;
+    align-items: center;
+}
+.form{
+    width: 100%;
     
 }
+
 .search-button{
    margin-left: 4px;
     cursor: pointer;

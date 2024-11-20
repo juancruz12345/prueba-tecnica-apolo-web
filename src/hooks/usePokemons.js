@@ -4,7 +4,7 @@ import { buscarListaPokemons } from "../services/buscarPokemons";
 export function usePokemons(){
 
     const [pokemons, setPokemons] = useState([])
-    const [filteredPokemons, setFilteredPokemons] = useState([]);
+    const [filteredPokemons, setFilteredPokemons] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [searchTerm, setSearchTerm] = useState('')
@@ -13,36 +13,33 @@ export function usePokemons(){
      
       const customPokemons = JSON.parse(localStorage.getItem('customPokemons')) || []
       setPokemons(prevPokemons => [...prevPokemons, ...customPokemons])
-    }, []);
+    }, [])
   
     useEffect(() => {
       const fetchData = async () => {
-        await buscarListaPokemons(setPokemons, setTotalPages);
-        loadCustomPokemons();
-      };
-      fetchData();
-    }, [loadCustomPokemons]);
+        await buscarListaPokemons(setPokemons, setTotalPages)
+        loadCustomPokemons()
+      }
+      fetchData()
+    }, [loadCustomPokemons])
 
       useEffect(() => {
         const filtered = pokemons.filter(pokemon => 
           pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredPokemons(filtered);
-        setTotalPages(Math.ceil(filtered.length / 50));
-      }, [searchTerm, pokemons]);
+        )
+        setFilteredPokemons(filtered)
+        setTotalPages(Math.ceil(filtered.length / 50))
+      }, [searchTerm, pokemons])
 
-      /*const loadCustomPokemons = () => {
-        const customPokemons = JSON.parse(localStorage.getItem('customPokemons')) || []
-        setPokemons(prevPokemons => [...prevPokemons, ...customPokemons])
-      }*/
+     
     
       const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
+        setCurrentPage(pageNumber)
       }
 
       const handleSearch = (term) => {
-        setSearchTerm(term);
-        setCurrentPage(1);
+        setSearchTerm(term)
+        setCurrentPage(1)
       };
 
       return{filteredPokemons,currentPage, totalPages, handlePageChange, handleSearch, loadCustomPokemons}

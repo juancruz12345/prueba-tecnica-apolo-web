@@ -12,10 +12,11 @@ export function Home(){
     const [usuario, setUsuario] = useState(JSON.parse(window.localStorage.getItem('user')))
     const {filteredPokemons, currentPage, totalPages, handlePageChange, handleSearch, loadCustomPokemons} = usePokemons()
     
-    const paginatedPokemons = filteredPokemons.slice((currentPage - 1) * 50, currentPage * 50);
+    const paginatedPokemons = filteredPokemons.slice((currentPage - 1) * 50, currentPage * 50)
     
     useEffect(() => {
       loadCustomPokemons()
+    
     }, [loadCustomPokemons])
    
     return(
@@ -31,11 +32,13 @@ export function Home(){
 
 
       <Container className="my-4">
-      <h1 className="text-center mb-4">Pokédex</h1>
-      <SearchBar onSearch={handleSearch}></SearchBar>
+      <h1 className="text-center mb-4"><strong>Pokédex</strong></h1>
+     <div className="search-add-div">
+     <SearchBar onSearch={handleSearch}></SearchBar>
       <Link to="/pokemon/add">
-          <Button variant="success">Add New Pokémon</Button>
+          <Button variant="success">Agregar nuevo pokémon</Button>
         </Link>
+     </div>
       <Row xs={1} md={2} lg={3} xl={4} className="g-4" id='pokemons-container'>
         {paginatedPokemons.map((pokemon) => (
           <Col  key={pokemon.name}>
@@ -53,6 +56,7 @@ export function Home(){
               />
                 :
                 <Card.Img
+                loading="lazy"
                 className="pokemon-image"
                 variant="top"
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`}
@@ -63,6 +67,7 @@ export function Home(){
               </div>
               <Card.Body>
                 <Card.Title className="text-capitalize">{pokemon.name}</Card.Title>
+                <p></p>
               </Card.Body>
               {pokemon.isCustom && (
                 <Card.Footer className="text-center">
@@ -100,14 +105,18 @@ export function Home(){
 
                 : 
                 
-                <div>
+                <div className="div-no-user">
                    
-                    <h1>Debes loguearte para usar la pagina</h1>
+                   
+                  <div className="div-no-user-inside">
+                    <strong><h1>Pokedex App</h1></strong>
+                  <h2>Debes loguearte para usar la pagina</h2>
 
-                    <div className="div-links">
-                        <Link to={'/login'}>Login</Link>
-                        <Link to={'/register'}>Registrarse</Link>
-                    </div>
+                <div className="div-links">
+                <Button><Link className="link-no-user" to={'/login'}>Login</Link></Button>
+                <Button><Link  className="link-no-user" to={'/register'}>Registrarse</Link></Button>
+                </div>
+                  </div>
                 </div>
 
             }
